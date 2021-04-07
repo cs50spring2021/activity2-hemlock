@@ -29,7 +29,7 @@ main(const int argc, const char * argv[])
   int answer; // the secret number to guess
   int guess;  // the user's guess
   int max;    // we'll pick a number in [1..max]
-
+  int numOfGuesses; // the number of guesses so far, max at 10
   // interpret arguments
   if (argc == 1) {
     // no arguments (other than the command) - use default value
@@ -50,9 +50,10 @@ main(const int argc, const char * argv[])
 
   printf("I'm thinking of a number between 1-%d.\n", max);
   guess = askGuess(1, max);
-
-  while (guess != 0 && guess != answer) {
-    if (guess < 0) {
+  numOfGuesses = 1;
+  while (guess != 0 && guess != answer && numOfGuesses < 10) {
+      numOfGuesses++;
+   if (guess < 0) {
       printf("invalid number!\n");
     } else if (guess > answer) {
       printf("too high!\n");
@@ -62,6 +63,10 @@ main(const int argc, const char * argv[])
     guess = askGuess(1, max);
   }
 
+  if (numOfGuesses == 10){
+      printf("correct answer is %d\n", answer);
+      return 0;
+  }
   if (guess == answer)
     printf("Correct!\n");
   else
